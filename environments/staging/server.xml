@@ -65,32 +65,55 @@
 <!-- password specified when starting MQ docker container (e.g. MQ_APP_PASSWORD=passw0rd)-->
 <authData id="TradeAdminAuthData" user="app" password="${env.mqPass}" />
 
+<!--
 <dataSource jndiName="jdbc/TradeDataSource" id="DefaultDataSource" jdbcDriverRef="DB2JCC" connectionManagerRef="db2ConMgr1" statementCacheSize="60" isolationLevel="TRANSACTION_READ_COMMITTED" type="javax.sql.XADataSource">
   <properties serverName="${env.dbHost}" portNumber="${env.dbPort}" databaseName="${env.dbName}" driverType="4" user="${env.dbUser}" password="${env.dbPass}"/> 
 </dataSource>
+-->
+<!-- Use Manage integrations > Integrate IBM Db2 Info -->
+<include location="${shared.resource.dir}/ease/db2/jdbc4.xml"/>
 
-<resourceAdapter id="mqJmsRa" location="${server.config.dir}/wmq.jmsra.rar" />
+<dataSource jndiName="jdbc/TradeDataSource"  jdbcDriverRef="ease.db2jcc4" connectionManagerRef="db2ConMgr1" statementCacheSize="60" isolationLevel="TRANSACTION_READ_COMMITTED" type="javax.sql.XADataSource">
+  <properties serverName="${env.dbHost}"
+                      portNumber="${env.dbPort}"
+                      databaseName="${env.dbName}"
+                      sslConnection="true"
+                      user="${env.dbUser}"
+                      password="${tradedb-secret}"/>
+</dataSource>
+
+<!-- <resourceAdapter id="mqJmsRa" location="${server.config.dir}/wmq.jmsra.rar" /> -->
 
 <connectionManager id="mqConMgr1" connectionTimeout="60s" maxPoolSize="20"/>
 <connectionManager id="mqConMgr2" connectionTimeout="60s" maxPoolSize="20"/>
 
+<include location="${shared.resource.dir}/ease/mq/jms3.xml"/>
+
 <jmsQueueConnectionFactory jndiName="jms/TradeBrokerQCF" connectionManagerRef="mqConMgr1">
-  <properties.mqJmsRa
+  <properties.mqJms
       channel="DEV.APP.SVRCONN"
       hostName="${env.mqHost}"
       port="1414"
       queueManager="${env.QueueManager}" 
+      sslCipherSuite="TLS_AES_128_GCM_SHA256"
       transportType="CLIENT" 
       userName="app"
       password="${env.mqPass}"/>
 </jmsQueueConnectionFactory>
 
+<!--
 <jmsQueue id="TradeBrokerQueue" jndiName="jms/TradeBrokerQueue">
   <properties.mqJmsRa baseQueueName="TradeBrokerQueue"  />
 </jmsQueue>
+ -->
+<jmsQueue id="jms/queue1" jndiName="jms/wmqQ1">
+  <properties.wmqJms
+   baseQueueName="MDBQ"
+   baseQueueManagerName="QM1"/>
+</jmsQueue>
 
 <jmsTopicConnectionFactory jndiName="jms/TradeStreamerTCF" connectionManagerRef="mqConMgr2">
-   <properties.mqJmsRa 
+   <properties.mqJms 
       transportType="CLIENT"
       hostName="${env.mqHost}"
       port="1414"
@@ -101,11 +124,11 @@
 </jmsTopicConnectionFactory>
 
 <jmsTopic id="TradeStreamerTopic" jndiName="jms/TradeStreamerTopic">
-   <properties.mqJmsRa baseTopicName="TradeStreamerTopic" />
+   <properties.mqJms baseTopicName="TradeStreamerTopic" />
 </jmsTopic>
 
 <jmsActivationSpec id="eis/TradeBrokerMDB" authDataRef="TradeAdminAuthData">
-     <properties.mqJmsRa 
+     <properties.mqJms 
             transportType="CLIENT"
             hostName="${env.mqHost}"
             port="1414"
@@ -116,7 +139,7 @@
 </jmsActivationSpec>
 
 <jmsActivationSpec id="eis/TradeStreamerMDB" authDataRef="TradeAdminAuthData">
-      <properties.mqJmsRa 
+      <properties.mqJms 
             transportType="CLIENT"
             hostName="${env.mqHost}"
             port="1414"
