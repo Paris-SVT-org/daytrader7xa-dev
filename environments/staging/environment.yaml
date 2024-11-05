@@ -11,13 +11,13 @@ app:
   java: 8
   env:
     - name: httpPort
-      value: 9080
+      value: "9080"
     - name: httpsPort
-      value: 9443
+      value: "9443"
     - name: dbHost
       value: ec2-35-153-18-9.compute-1.amazonaws.com
     - name: dbPort
-      value: 60005
+      value: "60005"
     - name: dbName
       value: TRADEDB
     - name: dbUser
