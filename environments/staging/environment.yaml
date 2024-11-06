@@ -3,12 +3,12 @@ app:
   maven:
     groupId: "daytrader7"
     artifactId: "daytrader7xa-mq-tpr"
-    version: "11"
+    version: "17"
     type: ear
   instances:
     min: 1
     max: 2
-  java: 11
+  java: 17
   env:
     - name: httpPort
       value: "9080"
