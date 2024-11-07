@@ -4,6 +4,7 @@
         <feature>servlet-4.0</feature>
         <feature>jsf-2.3</feature>
         <feature>jpa-2.2</feature>
+	<!-- rename per docs https://www.ibm.com/docs/en/was-liberty/base?topic=liberty-superseded-features -->
         <!--<feature>jmsMdb-3.2</feature>-->
 	<feature>mdb-3.2</feature>
         <!--<feature>wasJmsServer-1.0</feature>-->
@@ -15,7 +16,8 @@
         <feature>beanValidation-2.0</feature>
         <!--user-defined xaflow-1.0 feature to test transaction manager-->
         <!--<feature>xaflow-1.0</feature>-->
-	      <feature>ssl-1.0</feature>
+	<!--<feature>ssl-1.0</feature>-->
+	<feature>transportSecurity-1.0</feature>
         <!--demo app features-->
         <feature>jaxrs-2.1</feature>
         <feature>jdbc-4.3</feature>  
