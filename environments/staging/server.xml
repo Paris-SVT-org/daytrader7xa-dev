@@ -87,15 +87,14 @@
 <connectionManager id="mqConMgr1" connectionTimeout="60s" maxPoolSize="20"/>
 <connectionManager id="mqConMgr2" connectionTimeout="60s" maxPoolSize="20"/>
 
-<include location="${shared.resource.dir}/ease/mq/jms3.xml"/>
+<include location="${shared.resource.dir}/ease/mq/jakarta-ra.xml"/>
 
 <jmsQueueConnectionFactory jndiName="jms/TradeBrokerQCF" connectionManagerRef="mqConMgr1">
   <properties.mqJms
       channel="DEV.APP.SVRCONN"
       hostName="${env.mqHost}"
       port="1414"
-      queueManager="${env.QueueManager}" 
-      sslCipherSuite="TLS_AES_128_GCM_SHA256"
+      queueManager="${env.QueueManager}"
       transportType="CLIENT" 
       userName="app"
       password="${env.mqPass}"/>
