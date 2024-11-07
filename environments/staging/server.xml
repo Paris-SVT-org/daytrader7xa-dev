@@ -87,7 +87,7 @@
 <connectionManager id="mqConMgr1" connectionTimeout="60s" maxPoolSize="20"/>
 <connectionManager id="mqConMgr2" connectionTimeout="60s" maxPoolSize="20"/>
 
-<include location="${shared.resource.dir}/ease/mq/jakarta-ra.xml"/>
+<include location="${shared.resource.dir}/ease/mq/javax-ra.xml"/>
 
 <jmsQueueConnectionFactory jndiName="jms/TradeBrokerQCF" connectionManagerRef="mqConMgr1">
   <properties.mqJms
