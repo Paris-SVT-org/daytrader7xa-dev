@@ -4,7 +4,8 @@
         <feature>servlet-4.0</feature>
         <feature>jsf-2.3</feature>
         <feature>jpa-2.2</feature>
-        <feature>jmsMdb-3.2</feature>
+        <!--<feature>jmsMdb-3.2</feature>-->
+	<feature>mdb-3.2</feature>
         <!--<feature>wasJmsServer-1.0</feature>-->
         <!--<feature>wasJmsClient-2.0</feature>-->
         <feature>cdi-2.0</feature>
