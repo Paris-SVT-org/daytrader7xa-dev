@@ -54,7 +54,7 @@
 <!--<keyStore id="defaultKeyStore" password="passw0rd"/> -->
 
 <!--DayTrader7xa app-->
-<application type="ear" id="daytrader7" name="daytrader7" location="daytrader7xa-mq-tpr-17.ear" context-root="/daytrader-xa"/>
+<application type="ear" id="daytrader7" name="daytrader7" location="daytrader7xa-mq-tpr.ear" context-root="/daytrader-xa"/>
 
 <applicationMonitor dropinsEnabled="true" updateTrigger="mbean"/> 
 <!-- updateTrigger expected value(s) are: [polled][mbean][disabled] -->
@@ -92,10 +92,11 @@
 <connectionManager id="mqConMgr1" connectionTimeout="60s" maxPoolSize="20"/>
 <connectionManager id="mqConMgr2" connectionTimeout="60s" maxPoolSize="20"/>
 
-<include location="${shared.resource.dir}/ease/mq/javax-ra.xml"/>
+<!-- <include location="${shared.resource.dir}/ease/mq/javax-ra.xml"/> -->
+<resourceAdapter id="mqJmsRa" location="${shared.resource.dir}/ease/mq/javax-ra.xml" />
 
 <jmsQueueConnectionFactory jndiName="jms/TradeBrokerQCF" connectionManagerRef="mqConMgr1">
-  <properties.mqJms
+  <properties.mqJmsRa
       channel="DEV.APP.SVRCONN"
       hostName="${env.mqHost}"
       port="1414"
@@ -111,13 +112,13 @@
 </jmsQueue>
  -->
 <jmsQueue id="jms/queue1" jndiName="jms/wmqQ1">
-  <properties.wmqJms
+  <properties.mqJmsRa
    baseQueueName="MDBQ"
    baseQueueManagerName="QM1"/>
 </jmsQueue>
 
 <jmsTopicConnectionFactory jndiName="jms/TradeStreamerTCF" connectionManagerRef="mqConMgr2">
-   <properties.mqJms 
+   <properties.mqJmsRa 
       transportType="CLIENT"
       hostName="${env.mqHost}"
       port="1414"
@@ -126,30 +127,36 @@
       userName="app"
       password="${env.mqPass}"/>
 </jmsTopicConnectionFactory>
-
+<!--
 <jmsTopic id="TradeStreamerTopic" jndiName="jms/TradeStreamerTopic">
-   <properties.mqJms baseTopicName="TradeStreamerTopic" />
+   <properties.mqJmsRa baseTopicName="TradeStreamerTopic" />
+</jmsTopic>
+-->
+<jmsTopic id="jms/topic1" jndiName="jms/wmqT1">
+   <properties.mqJmsRa 
+     baseTopicName="MDBT" 
+     baseQueueManagerName="QM1"/>
 </jmsTopic>
 
 <jmsActivationSpec id="eis/TradeBrokerMDB" authDataRef="TradeAdminAuthData">
-     <properties.mqJms 
+     <properties.mqJmsRa 
             transportType="CLIENT"
             hostName="${env.mqHost}"
             port="1414"
             channel="DEV.APP.SVRCONN"
             queueManager="${env.QueueManager}"
-            destinationRef="TradeBrokerQueue"
+            destinationRef="jms/queue1"
             destinationType="javax.jms.Queue"/>
 </jmsActivationSpec>
 
 <jmsActivationSpec id="eis/TradeStreamerMDB" authDataRef="TradeAdminAuthData">
-      <properties.mqJms 
+      <properties.mqJmsRa 
             transportType="CLIENT"
             hostName="${env.mqHost}"
             port="1414"
             channel="DEV.APP.SVRCONN"
             queueManager="${env.QueueManager}"
-            destinationRef="TradeStreamerTopic"
+            destinationRef="jms/topic1"
             destinationType="javax.jms.Topic"/>
 </jmsActivationSpec>
 
