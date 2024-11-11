@@ -111,7 +111,7 @@
   <properties.mqJmsRa baseQueueName="TradeBrokerQueue"  />
 </jmsQueue>
  -->
-<jmsQueue id="jms/queue1" jndiName="jms/wmqQ1">
+<jmsQueue id="jms/queue1" jndiName="jms/TradeBrokerQueue">
   <properties.mqJmsRa
    baseQueueName="MDBQ"
    baseQueueManagerName="QM1"/>
@@ -132,7 +132,7 @@
    <properties.mqJmsRa baseTopicName="TradeStreamerTopic" />
 </jmsTopic>
 -->
-<jmsTopic id="jms/topic1" jndiName="jms/wmqT1">
+<jmsTopic id="jms/topic1" jndiName="jms/TradeStreamerTopic">
    <properties.mqJmsRa 
      baseTopicName="MDBT" 
      baseQueueManagerName="QM1"/>
