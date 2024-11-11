@@ -9,6 +9,7 @@ app:
     min: 1
     max: 2
   java: 17
+  endpoints: public
   env:
     - name: httpPort
       value: "9080"
