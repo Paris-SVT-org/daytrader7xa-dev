@@ -93,7 +93,6 @@
 <connectionManager id="mqConMgr2" connectionTimeout="60s" maxPoolSize="20"/>
 
 <include location="${shared.resource.dir}/ease/mq/javax-ra.xml"/>
-<resourceAdapter id="wmqJms" location="${wmqJmsClient.rar.location}" />
 <!-- <resourceAdapter id="mqJmsRa" location="${shared.resource.dir}/ease/mq/javax-ra.xml" />-->
 
 <jmsQueueConnectionFactory jndiName="jms/TradeBrokerQCF" connectionManagerRef="mqConMgr1">
