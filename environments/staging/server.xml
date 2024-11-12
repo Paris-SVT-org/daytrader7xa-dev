@@ -92,7 +92,43 @@
 <connectionManager id="mqConMgr1" connectionTimeout="60s" maxPoolSize="20"/>
 <connectionManager id="mqConMgr2" connectionTimeout="60s" maxPoolSize="20"/>
 
-<!-- <include location="${shared.resource.dir}/ease/mq/javax-ra.xml"/> -->
+<include location="${shared.resource.dir}/ease/mq/javax-ra.xml"/>
+
+<jmsConnectionFactory jndiName="jms/TradeBrokerQCF" connectionManagerRef="mqConMgr1">
+  <properties.wmqJms
+      channel="DEV.APP.SVRCONN"
+      hostName="${env.mqHost}"
+      port="1414"
+      queueManager="${env.QueueManager}"
+      transportType="CLIENT" 
+      userName="app"
+      password="${env.mqPass}"/>
+</jmsConnectionFactory>
+
+<jmsQueue id="jms/queue1" jndiName="jms/TradeBrokerQueue">
+  <properties.wmqJms
+   baseQueueName="MDBQ"
+   baseQueueManagerName="QM1"/>
+</jmsQueue>
+
+<jmsTopicConnectionFactory jndiName="jms/TradeStreamerTCF" connectionManagerRef="mqConMgr2">
+  <properties.wmqJms 
+     transportType="CLIENT"
+     hostName="${env.mqHost}"
+     port="1414"
+     channel="DEV.APP.SVRCONN"
+     queueManager="${env.QueueManager}" 
+     userName="app"
+     password="${env.mqPass}"/>
+</jmsTopicConnectionFactory>
+
+<jmsTopic id="jms/topic1" jndiName="jms/TradeStreamerTopic">
+  <properties.wmqJms 
+    baseTopicName="MDBT" 
+    baseQueueManagerName="QM1"/>
+</jmsTopic>
+
+<!-- 
 <resourceAdapter id="mqJmsRa" location="${shared.resource.dir}/ease/mq/javax-ra.xml" />
 
 <jmsQueueConnectionFactory jndiName="jms/TradeBrokerQCF" connectionManagerRef="mqConMgr1">
@@ -106,11 +142,6 @@
       password="${env.mqPass}"/>
 </jmsQueueConnectionFactory>
 
-<!--
-<jmsQueue id="TradeBrokerQueue" jndiName="jms/TradeBrokerQueue">
-  <properties.mqJmsRa baseQueueName="TradeBrokerQueue"  />
-</jmsQueue>
- -->
 <jmsQueue id="jms/queue1" jndiName="jms/TradeBrokerQueue">
   <properties.mqJmsRa
    baseQueueName="MDBQ"
@@ -127,18 +158,13 @@
       userName="app"
       password="${env.mqPass}"/>
 </jmsTopicConnectionFactory>
-<!--
-<jmsTopic id="TradeStreamerTopic" jndiName="jms/TradeStreamerTopic">
-   <properties.mqJmsRa baseTopicName="TradeStreamerTopic" />
-</jmsTopic>
--->
 	
 <jmsTopic id="jms/topic1" jndiName="jms/TradeStreamerTopic">
    <properties.mqJmsRa 
      baseTopicName="MDBT" 
      baseQueueManagerName="QM1"/>
 </jmsTopic>
-
+-->
 <jmsActivationSpec id="eis/TradeBrokerMDB" authDataRef="TradeAdminAuthData">
      <properties.mqJmsRa 
             transportType="CLIENT"
