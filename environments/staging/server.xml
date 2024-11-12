@@ -132,6 +132,7 @@
    <properties.mqJmsRa baseTopicName="TradeStreamerTopic" />
 </jmsTopic>
 -->
+	
 <jmsTopic id="jms/topic1" jndiName="jms/TradeStreamerTopic">
    <properties.mqJmsRa 
      baseTopicName="MDBT" 
