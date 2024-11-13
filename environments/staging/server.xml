@@ -81,7 +81,7 @@
 <properties serverName="${env.dbHost}"
                     portNumber="${env.dbPort}"
                     databaseName="${env.dbName}"
-                    sslConnection="true"
+                    sslConnection="false"
               driverType="4"
                     user="${env.dbUser}"
                     password="${tradedb-secret}"/>
